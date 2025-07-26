@@ -20,8 +20,11 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
+    - name: 🔓 Make mvnw executable
+      run: chmod +x ./mvnw
+
     - name: 📦 Build with Maven Wrapper
       run: ./mvnw clean install
 
-    - name: ✅ Run Tests with Maven Wrapper
+    - name: ✅ Run Tests
       run: ./mvnw test
