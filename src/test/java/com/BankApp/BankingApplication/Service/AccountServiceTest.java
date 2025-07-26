@@ -51,7 +51,7 @@ public class AccountServiceTest {
     @Test
     void testFindAccountByUsername_Success() {
         Account found = accountService.findAccountByUsername("john");
-        assertEquals("jhn", found.getUsername());
+        assertEquals("john", found.getUsername());
     }
     @Test
     void testDeposit() {

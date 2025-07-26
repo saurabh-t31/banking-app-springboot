@@ -20,8 +20,8 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: 📦 Build with Maven
-      run: mvn clean install
+    - name: 📦 Build with Maven Wrapper
+      run: ./mvnw clean install
 
-    - name: ✅ Run Tests
-      run: mvn test
+    - name: ✅ Run Tests with Maven Wrapper
+      run: ./mvnw test
