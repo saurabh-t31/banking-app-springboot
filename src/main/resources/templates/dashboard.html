@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>SmartBank Dashboard</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #f0f4f7, #ffffff);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #333333;
+        }
+
+        /* Navbar Styling */
+        .navbar-custom {
+            background-color: #0072bc; /* SBI Blue */
+            padding: 8px 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-custom .navbar-brand {
+            font-weight: bold;
+            font-size: 2rem;
+            color: #ffffff !important;
+        }
+
+        .navbar-custom .navbar-nav {
+            margin-left: auto;
+        }
+
+        .navbar-custom .navbar-nav a {
+            color: #ffffff !important;
+            margin-right: 15px;
+            font-size: 1rem;
+        }
+
+        .navbar-custom .navbar-nav a:hover {
+            color: #FFD700 !important;
+            text-decoration: none;
+        }
+
+        /* Container Styling */
+        .container {
+            margin-top: 100px;
+            max-width: 1200px;
+            text-align: center; /* Center text within container */
+        }
+
+        /* Account Summary */
+        .account-summary {
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .account-summary h2 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #0072bc; /* SBI Blue */
+        }
+
+        .account-summary h3 {
+            font-size: 1.5rem;
+            color: #28a745; /* Green for balance */
+        }
+
+        /* Action Cards */
+        .action-card {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .action-card h4 {
+            margin-top: 10px;
+            color: #0072bc;
+        }
+
+        .action-card i {
+            font-size: 2.5rem;
+            color: #FFD700; /* Gold */
+        }
+
+        .form-container {
+            padding: 20px;
+            background-color: #f1f8e9;
+            border-radius: 10px;
+            margin-top: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #0072bc;
+            color: #ffffff;
+            padding: 15px 0;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .footer a {
+            color: #FFD700;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-custom">
+    <a class="navbar-brand" href="#">SmartBank</a>
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link" href="/transactions">Transactions</a></li>
+        <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+    </ul>
+</nav>
+
+<div class="container">
+    <!-- Username Display -->
+    <h2 th:text="'Welcome, ' + ${account.username}" class="font-weight-bold" style="font-size: 2.5rem;"></h2>
+
+    <!-- Account Summary -->
+    <div class="account-summary">
+        <h3 th:text="'Current Balance: $' + ${account.balance}"></h3>
+        <p><strong>Account Number:</strong> <span th:text="${account.id}"></span></p>
+        <p><strong>Account Type:</strong> Savings</p>
+    </div>
+
+    <!-- Action Section -->
+    <div class="row">
+        <!-- Deposit Action -->
+        <div class="col-md-4">
+            <div class="action-card">
+                <i class="fas fa-wallet"></i>
+                <h4>Deposit Money</h4>
+                <button class="btn btn-success mt-3" type="button" data-toggle="collapse" data-target="#depositForm" aria-expanded="false" aria-controls="depositForm">Deposit</button>
+                <div class="collapse mt-3" id="depositForm">
+                    <form method="post" action="/deposit" class="form-container">
+                        <div class="form-group">
+                            <label>Amount:</label>
+                            <input type="number" class="form-control" name="amount" required />
+                        </div>
+                        <button type="submit" class="btn btn-block btn-success">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Withdraw Action -->
+        <div class="col-md-4">
+            <div class="action-card">
+                <i class="fas fa-money-bill-wave"></i>
+                <h4>Withdraw Money</h4>
+                <button class="btn btn-success mt-3" type="button" data-toggle="collapse" data-target="#withdrawForm" aria-expanded="false" aria-controls="withdrawForm">Withdraw</button>
+                <div class="collapse mt-3" id="withdrawForm">
+                    <form method="post" action="/withdraw" class="form-container">
+                        <div class="form-group">
+                            <label>Amount:</label>
+                            <input type="number" class="form-control" name="amount" required />
+                        </div>
+                        <button type="submit" class="btn btn-block btn-success">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transfer Action -->
+        <div class="col-md-4">
+            <div class="action-card">
+                <i class="fas fa-exchange-alt"></i>
+                <h4>Transfer Money</h4>
+                <button class="btn btn-success mt-3" type="button" data-toggle="collapse" data-target="#transferForm" aria-expanded="false" aria-controls="transferForm">Transfer</button>
+                <div class="collapse mt-3" id="transferForm">
+                    <form method="post" action="/transfer" class="form-container">
+                        <div class="form-group">
+                            <label>Recipient Username:</label>
+                            <input type="text" class="form-control" name="toUsername" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Amount:</label>
+                            <input type="number" class="form-control" name="amount" required />
+                        </div>
+                        <button type="submit" class="btn btn-block btn-success">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    <p>© 2025 SmartBank. All Rights Reserved. | <a href="/privacy-policy">Privacy Policy</a></p>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
