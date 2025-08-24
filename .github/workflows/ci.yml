@@ -27,4 +27,4 @@ jobs:
       run: ./mvnw clean install
 
     - name: ✅ Run Tests
-      run: ./mvnw test
+      run: ./mvnw test -Dspring.profiles.active=test

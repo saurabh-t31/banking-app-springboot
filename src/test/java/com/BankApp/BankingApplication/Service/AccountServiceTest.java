@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -19,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @Transactional
+@ActiveProfiles("test")
 public class AccountServiceTest {
 
     @Autowired
@@ -29,7 +31,7 @@ public class AccountServiceTest {
 
     @Autowired
     private TransactionRepo transactionRepo;
-
+    
     private Account testAccount;
 
     @BeforeEach
@@ -45,7 +47,6 @@ public class AccountServiceTest {
     void testRegisterAccountSuccess(){
         Account acc = accountService.registerAccount("Alice","pass@123");
         assertNotNull(acc.getId());
-
     }
 
     @Test
